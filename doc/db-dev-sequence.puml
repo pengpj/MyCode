@@ -1,0 +1,33 @@
+@startuml
+
+title 开发环节DB更新
+
+participant cloud as cloud
+participant sql_inspect as sql_inspect
+participant b as "流水线"
+
+autonumber
+cloud -> sql_inspect: 获取实例列表
+sql_inspect --> cloud: 实例列表
+
+|||
+
+cloud -> cloud : authentication
+cloud -> cloud : persistence
+
+cloud -> b : 提交操作
+activate b
+
+autonumber stop
+alt 流水线执行结束
+    cloud -> cloud : status : 【执行中】
+else
+    loop 监听执行状态
+    cloud -> b : 监听执行状态
+    b --> cloud : result
+    deactivate b
+    end
+    cloud -> cloud : 更新执行结果
+end
+
+@enduml

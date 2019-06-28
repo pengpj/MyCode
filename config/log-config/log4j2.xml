@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+
+    <Properties>
+        <Property name="log_path">/tmp/logs</Property>
+    </Properties>
+
+    <Appenders>
+
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}][%t][%level][%C:%L] %m%n"/>
+        </Console>
+
+        <RollingFile name="DailyRollingFile" fileName="${log_path}/all-logs.log"
+                     filePattern="${log_path}/all-logs-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}][%t][%level][%C:%L] %m%n"/>
+            <TimeBasedTriggeringPolicy/>
+        </RollingFile>
+
+        <RollingFile name="sql" fileName="${log_path}/sql.log"
+                     filePattern="${log_path}/sql-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}][%t][%level][%C:%L] %m%n"/>
+            <TimeBasedTriggeringPolicy/>
+        </RollingFile>
+
+        <RollingFile name="MQConsumerRollingFile" fileName="${log_path}/mq-logs.log"
+                     filePattern="${log_path}/apm-logs-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}][%t][%level][%C:%L] %m%n"/>
+            <TimeBasedTriggeringPolicy/>
+        </RollingFile>
+
+    </Appenders>
+
+    <Loggers>
+
+        <Root level="info">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="DailyRollingFile"/>
+        </Root>
+
+        <!--
+        mybatis 日志
+        -->
+        <Logger name="com.cvte.myou.apm.storage.mapper" level="debug" additivity="false">
+            <appender-ref ref="sql"/>
+        </Logger>
+
+        <!--MQ 日志级别-->
+        <Logger name="RocketmqClient" level="WARN">
+            <AppenderRef ref="MQConsumerRollingFile"/>
+            <AppenderRef ref="Console"/>
+        </Logger>
+
+    </Loggers>
+
+</Configuration>

@@ -1,0 +1,23 @@
+@startuml
+
+title 开发环节DB更新-2
+
+participant cloud as cloud
+participant sql_inspect as sql_inspect
+participant b as "流水线"
+
+autonumber
+cloud -> sql_inspect: 获取实例列表
+sql_inspect --> cloud: 实例列表
+
+|||
+
+cloud -> cloud : authentication
+cloud -> cloud : persistence
+
+cloud -> b : 提交操作
+b --> cloud : 操作标识
+
+cloud -> cloud : 保存操作标识
+
+@enduml

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration scan="false" scanPeriod="60000" debug="false">
+
+    <!--
+        日志目录
+        当前为 jar 项目，jar包没有 tomcat 上下文，所以配置了完整的目录路径
+        如果是 war 项目，可以用如下方式配置路径：
+            <property name="BaseLogDirectory" value="${catalina.home}/logs/alarm-platform" />
+    -->
+    <property name="BaseLogDirectory" value="/tmp/logs"/>
+
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}][%t][%level][%C:%L] %m%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!--    写入文件，按天切割-->
+    <appender name="log" class="ch.qos.logback.core.rolling.RollingFileAppender">\
+        <file>${BaseLogDirectory}/all-logs.log</file>
+        <!--
+            日志切割规则：按天切割，日期为后缀，存储3天
+        -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${BaseLogDirectory}/all-logs.%d{yyyy-MM-dd}.log</FileNamePattern>
+            <maxHistory>3</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}][%t][%level][%C:%L] %m%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!--    同上-->
+    <appender name="query" class="ch.qos.logback.core.rolling.RollingFileAppender">\
+        <file>${BaseLogDirectory}/query-logs.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${BaseLogDirectory}/query-logs.%d{yyyy-MM-dd}.log</FileNamePattern>
+            <maxHistory>3</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}][%t][%level][%C:%L] %m%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!--
+    mq 日志打印配置
+    -->
+    <appender name="RollingFileFxckMqProvider" class="ch.qos.logback.core.rolling.RollingFileAppender">\
+        <file>${BaseLogDirectory}/mq-logs.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${BaseLogDirectory}/mq-logs.%d{yyyy-MM-dd}.log</FileNamePattern>
+            <maxHistory>3</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}][%t][%level][%C:%L] %m%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!--根日志级别-->
+    <root level="info">
+        <appender-ref ref="console"/>
+        <appender-ref ref="log"/>
+    </root>
+
+    <!--
+        指定目录日志级别，目录为 mapper 接口所在
+        additivity : 是否向上传递日志信息
+        additivity=false 表示只用当前logger的appender-ref
+        additivity=true时，可能造成日志双写
+        也可建立一下 appender ，用来单独存放 sql
+    -->
+    <logger name="com.platform.storage.dao" level="debug" additivity="false">
+        <appender-ref ref="query"/>
+    </logger>
+
+    <logger name="RocketmqClient" level="debug" additivity="false">
+        <appender-ref ref="console"/>
+        <appender-ref ref="RollingFileFxckMqProvider"/>
+    </logger>
+
+
+</configuration>

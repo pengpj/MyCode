@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration scan="false" scanPeriod="60000" debug="false">
+
+    <property name="BaseLogDirectory" value="/tmp/logs"/>
+
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%t][%level][%C:%L] %m%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!--    写入文件，按天切割-->
+    <appender name="log" class="ch.qos.logback.core.rolling.RollingFileAppender">\
+        <file>${BaseLogDirectory}/all-logs.log</file>
+        <!--
+            日志切割规则：按天切割，日期为后缀，存储3天
+        -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${BaseLogDirectory}/all-logs.%d{yyyy-MM-dd}.log</FileNamePattern>
+            <maxHistory>3</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}][%t][%level][%C:%L] %m%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!--    同上-->
+    <appender name="query" class="ch.qos.logback.core.rolling.RollingFileAppender">\
+        <file>${BaseLogDirectory}/query-logs.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${BaseLogDirectory}/query-logs.%d{yyyy-MM-dd}.log</FileNamePattern>
+            <maxHistory>3</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}][%t][%level][%C:%L] %m%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!--根日志级别-->
+    <root level="info">
+        <appender-ref ref="console"/>
+        <appender-ref ref="log"/>
+    </root>
+
+</configuration>

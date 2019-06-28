@@ -1,0 +1,58 @@
+@startuml
+
+title 数据库变更
+
+actor psdcloud as a
+control "流水线" as b
+participant "inner - sql inspect" as d
+participant "pro - sql inspect" as f
+
+=== 开发环节 ===
+autonumber
+a -> b : 数据库变更
+activate b
+b -> d : 数据库变更请求
+activate d
+d -> b : 数据库更新标识
+deactivate d
+
+loop 数据库更新结束
+    b -> d : 查询执行结果
+    activate d
+    d -> b : result
+    deactivate d
+    b -> b : 更新执行结果
+end
+
+deactivate b
+
+autonumber 2
+a -> b : 请求结点信息
+activate a
+activate b
+b --> a : 结果
+deactivate b
+deactivate a
+
+=== 预发布环节 ===
+
+autonumber
+
+a -> b : 下一步[预发]
+activate b
+b -> b : 初始化数据库操作数据
+deactivate b
+
+autonumber
+a -> b : 数据库变更
+activate b
+b -> f : 数据库变更请求
+activate f
+f -> b : 数据库更新标识
+deactivate f
+
+b -> b : 更新数据库执行结果
+
+deactivate b
+
+@enduml

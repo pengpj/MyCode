@@ -1,0 +1,32 @@
+@startuml
+
+title 预发环节DB更新
+
+participant cloud as cloud
+participant sql_inspect as sql_inspect
+participant b as "流水线"
+
+=== 初始化 ===
+
+autonumber
+cloud -> cloud: 复制开发环节有效的SQL操作
+cloud -> cloud : 过滤掉无效的SQL操作
+
+=== 操作流程 ===
+
+autonumber
+
+cloud -> b : 获取SQL信息
+b --> cloud : SQL相关信息
+cloud -> sql_inspect : 获取SQL对应的数据库信息
+sql_inspect --> cloud: 目标DB信息
+
+|||
+
+cloud -> cloud : authentication
+
+cloud -> b : 申请执行
+b --> cloud : 操作标识
+cloud -> cloud : 保存相关操作
+
+@enduml
