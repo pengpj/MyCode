@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <configuration scan="false" scanPeriod="60000" debug="false">
 
-    <property name="BaseLogDirectory" value="/tmp/logs"/>
+    <property name="BaseLogDirectory" value="/tmp/logs/alarm-shell"/>
 
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
