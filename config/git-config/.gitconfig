@@ -1,0 +1,11 @@
+[user]
+    name = xxx
+    email = xxx
+[alias]
+    st = status
+    ci = commit
+    co = checkout
+    br = branch
+    df = diff
+    slog = log --pretty=oneline --abbrev-commit
+    logs = log --stat
