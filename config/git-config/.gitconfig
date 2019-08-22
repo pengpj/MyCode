@@ -7,5 +7,6 @@
     co = checkout
     br = branch
     df = diff
+    mr = merge
     slog = log --pretty=oneline --abbrev-commit
     logs = log --stat
