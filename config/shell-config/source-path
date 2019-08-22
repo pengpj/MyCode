@@ -1,0 +1,7 @@
+JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home
+CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+ROCKETMQ_HOME=/Users/pengpeijie/workspace/github/rocketmq/distribution/target/rocketmq-4.5.2/rocketmq-4.5.2
+M2_HOME=/Users/pengpeijie/tools/apache-maven-3.3.9
+
+# export to path 
+export PATH=${PATH}:$M2_HOME/bin:$JAVA_HOME/bin:$ROCKETMQ_HOME

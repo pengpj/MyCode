@@ -1,0 +1,3 @@
+alias mt="mvn clean package -Dmaven.test.skip=true"
+alias mp="mvn clean package"
+alias ll="ls -arlth"
