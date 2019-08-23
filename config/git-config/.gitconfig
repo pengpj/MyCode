@@ -3,7 +3,7 @@
     email = xxx
 [alias]
     st = status
-    ci = commit
+    cm = commit
     co = checkout
     br = branch
     df = diff
