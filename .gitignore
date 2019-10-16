@@ -28,3 +28,8 @@ hs_err_pid*
 /*/*/target/
 /tools/alarm-shell/src/main/resources/application.properties
 mycode.code-workspace
+*/.project
+*/*/.project
+*/.settings/
+*/*/.settings/
+*/*/.classpath
